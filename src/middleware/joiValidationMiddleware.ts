@@ -40,14 +40,14 @@ export const joiFileValidationMiddleware = (schema: Schema) => {
       !req.headers['content-type']!.includes('multipart/')
     ) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        status: false,
+        success: false,
         message: middlewareExceptionMessage.FILE_REQUIRED,
       });
     }
 
     if (!req.file) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        status: false,
+        success: false,
         message: middlewareExceptionMessage.FILE_REQUIRED,
       });
     }
@@ -58,11 +58,10 @@ export const joiFileValidationMiddleware = (schema: Schema) => {
     } else {
       const { details } = error;
       const message = details.map((i) => i.message).join(',');
-      res.status(StatusCodes.BAD_REQUEST).json({ status: false, message });
+      res.status(StatusCodes.BAD_REQUEST).json({ success: false, message });
     }
   };
 };
-
 
 export default joiValidationMiddleware;
 export { joiQueryValidationMiddleware };
